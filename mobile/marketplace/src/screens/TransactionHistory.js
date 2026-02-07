@@ -8,7 +8,7 @@ import {
     RefreshControl,
     TouchableOpacity,
     Modal,
-    Image
+    Image,
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native' // updates data when tab is pressed
 import { Ionicons } from '@expo/vector-icons'
@@ -204,7 +204,6 @@ export default function TransactionScreen() {
                             placeholderTextColor={COLORS.textDim}
                             value={comment}
                             onChangeText={setComment}
-                            multiline
                         />
 
                         <View style={styles.modalButtons}>

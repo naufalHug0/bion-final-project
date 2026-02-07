@@ -105,6 +105,7 @@ export default function HomeScreen({ navigation }) {
                 </View>
             </View>
 
+                        
             {loading ? (
                 <View style={styles.center}><ActivityIndicator size="large" color={COLORS.primary} /></View>
             ) : 

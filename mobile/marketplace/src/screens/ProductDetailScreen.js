@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Platform, ActivityIndicator } from 'react-native'
 import api from '../services/api'
 import { useCartStore } from '../store/useStore'
 import { COLORS } from '../constants/theme'
@@ -7,11 +7,13 @@ import { NeonButton } from '../components/UI'
 import useAlert from '../hooks/useAlert'
 import { Ionicons } from '@expo/vector-icons'
 import CyberAlert from '../components/CyberAlert'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function ProductDetailScreen({ route, navigation }) {
     const { id } = route.params
     const [product, setProduct] = useState(null)
     const [reviews, setReviews] = useState([])
+    const [loading, setLoading] = useState(true)
     const { showAlert, alertConfig, closeAlert } = useAlert()
     
     const cartItems = useCartStore(state => state.cartItems)
@@ -22,9 +24,12 @@ export default function ProductDetailScreen({ route, navigation }) {
     const qtyInCart = cartItem ? cartItem.qty : 0
 
     useEffect(() => {
+        setLoading(true)
         api.get(`/products/${id}`).then(res => {
             setProduct(res.data.data)
             setReviews(res.data.data.reviews || [])
+        }).finally(() => {
+            setLoading(false)
         })
     }, [id])
 
@@ -61,6 +66,10 @@ export default function ProductDetailScreen({ route, navigation }) {
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+            {loading ? (
+                            <View style={styles.center}><ActivityIndicator size="large" color={COLORS.primary} /></View>
+                        ) : 
+            <>
             <ScrollView contentContainerStyle={{paddingBottom: 120}} showsVerticalScrollIndicator={false}>
                 <View style={styles.imageContainer}>
                     <Image 
@@ -160,11 +169,14 @@ export default function ProductDetailScreen({ route, navigation }) {
                 onClose={closeAlert}
                 onConfirm={closeAlert} 
             />
+            </>
+        }
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     imageContainer: { height: 350, width: '100%', position: 'relative' },
     detailImage: { width: '100%', height: '100%', resizeMode: 'cover' },
     imageOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.1)' },
@@ -217,6 +229,8 @@ const styles = StyleSheet.create({
     // Footer
     footer: { 
         position: 'absolute', bottom: 0, left: 0, right: 0, 
+        zIndex: 1000, // <--- Add this
+        elevation: 10,
         padding: 20, 
         backgroundColor: COLORS.card, 
         borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.1)' 
