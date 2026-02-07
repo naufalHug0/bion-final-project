@@ -1,0 +1,55 @@
+# --- Dependencies ---
+node_modules/
+package-lock.json
+yarn.lock
+
+# --- Environment Variables---
+.env
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+npm-debug.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+dist/
+coverage/
+
+build/
+.eslintcache
+
+# --- React Native / Expo (Mobile) ---
+.expo/
+web-build/
+*.jks
+*.keystore
+*.pem
+
+android/app/build/
+android/app/src/main/assets/
+
+ios/Pods/
+ios/build/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+
+# --- System Files ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs / Editors ---
+.idea/
+.vscode/
+*.swp
+*.swo
