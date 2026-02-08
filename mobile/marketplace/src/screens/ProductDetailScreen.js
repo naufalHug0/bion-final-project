@@ -139,7 +139,7 @@ export default function ProductDetailScreen({ route, navigation }) {
 
             <View style={[styles.footer, { 
                     paddingBottom: insets.bottom > 0 ? insets.bottom : 20, 
-                    height: 80 + insets.bottom 
+                    height: 120 + insets.bottom 
                 }]}>
                 {qtyInCart === 0 ? (
                     <NeonButton 
