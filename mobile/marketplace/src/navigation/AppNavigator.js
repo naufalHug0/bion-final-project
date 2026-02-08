@@ -13,11 +13,13 @@ import CartScreen from '../screens/CartScreen'
 import TransactionHistory from '../screens/TransactionHistory' 
 import { Platform } from 'react-native'
 import { useNavigation } from 'expo-router'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
+    const insets = useSafeAreaInsets()
     const androidPadding = 30
     const iosPadding = 20
 
@@ -28,16 +30,12 @@ const TabNavigator = () => {
                 tabBarStyle: {
                     backgroundColor: COLORS.card,
                     borderTopWidth: 0,
-                    // Dynamic height
-                    height: 60 + (Platform.OS === 'android' ? androidPadding : iosPadding),
-                    // Dynamic padding
-                    paddingBottom: Platform.OS === 'android' ? androidPadding : iosPadding,
-                    paddingTop: 10,
                     position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
                     elevation: 0,
+                    // Use insets.bottom to handle iPhone notches automatically
+                    height: Platform.OS === 'ios' ? 60 + insets.bottom : 70,
+                    paddingBottom: Platform.OS === 'ios' ? insets.bottom : 10,
+                    paddingTop: 10,
                 },
                 tabBarActiveTintColor: COLORS.primary,
                 tabBarInactiveTintColor: COLORS.textDim,

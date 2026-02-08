@@ -7,9 +7,11 @@ import { NeonButton } from '../components/UI'
 import useAlert from '../hooks/useAlert'
 import { Ionicons } from '@expo/vector-icons'
 import CyberAlert from '../components/CyberAlert'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function ProductDetailScreen({ route, navigation }) {
+    const insets = useSafeAreaInsets()
+
     const { id } = route.params
     const [product, setProduct] = useState(null)
     const [reviews, setReviews] = useState([])
@@ -135,7 +137,10 @@ export default function ProductDetailScreen({ route, navigation }) {
                 </View>
             </ScrollView>
 
-            <View style={styles.footer}>
+            <View style={[styles.footer, { 
+                    paddingBottom: insets.bottom > 0 ? insets.bottom : 20, 
+                    height: 80 + insets.bottom 
+                }]}>
                 {qtyInCart === 0 ? (
                     <NeonButton 
                         title={product.countInStock > 0 ? "ADD TO CART" : "OUT OF STOCK"} 
@@ -229,7 +234,7 @@ const styles = StyleSheet.create({
     // Footer
     footer: { 
         position: 'absolute', bottom: 0, left: 0, right: 0, 
-        zIndex: 1000, // <--- Add this
+        zIndex: 9999, // Ensure it's above everything
         elevation: 10,
         padding: 20, 
         backgroundColor: COLORS.card, 
